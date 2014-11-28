@@ -1,6 +1,8 @@
 #define NUM_PIXELS 38
 #define DEFAULT_BRIGHTNESS 1.0
 
+#define loops 1
+
 #include "../RaspberryPi-NeoPixel-WS2812/ws2812-RPi.c"
 #include "../RaspberryPi-NeoPixel-WS2812/ws2812-RPi-effects.c"
 
@@ -39,8 +41,40 @@ int main(int argc, char **argv) {
 	initHardware();
 	clearLEDBuffer();
 
+	// time_t t = time(NULL);
+	// struct tm tm = *localtime(&t);
+	// printf("Start: %d-%d-%d %d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 	while(true) {
-		rainbowCycle(5);
+		rainbowCycle_wipe(5);
+		// tm = *localtime(&t);
+		// printf("rainbowCycle_wipe() Done: %d-%d-%d %d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+
+		for (i = 0; i < loops; i++) {
+			rainbowCycle_f(5);
+		}
+		// tm = *localtime(&t);
+		// printf("rainbowCycle_f() Done: %d-%d-%d %d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+
+		// for (i = 0; i < loops; i++) {
+		// 	rainbowCycle(5);
+		// }
+		// time_t t = time(NULL);
+		// struct tm tm = *localtime(&t);
+		// printf("rainbowCycle() Done: %d-%d-%d %d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+
+		for (i = 0; i < loops; i++) {
+			colorWipe(Color(255, 0, 0), 50);
+			colorWipe_r(Color(0, 255, 0), 50);
+			colorWipe(Color(0, 0, 255), 50);
+			colorWipe_r(Color(255, 255, 255), 50);
+			colorWipe(Color(255, 255, 0), 50);
+			colorWipe_r(Color(255, 0, 255), 50);
+			colorWipe(Color(0, 255, 255), 50);
+			colorWipe_r(Color(255, 125, 0), 50);
+			colorWipe(Color(185, 60, 255), 50);
+		}
+		// tm = *localtime(&t);
+		// printf("colorWipe(s) Done: %d-%d-%d %d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 	}
 
 	// Exit cleanly, freeing memory and stopping the DMA & PWM engines
